@@ -1,0 +1,27 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventEmitter = void 0;
+class EventEmitter {
+    constructor() {
+        this.listeners = {};
+    }
+    listeners;
+    on(event, listener, once = false) {
+        (this.listeners[event] || (this.listeners[event] = [])).push({ once, listener });
+    }
+    once(event, listener) {
+        return this.on(event, listener, true);
+    }
+    async emit(event, ...args) {
+        const listeners = this.listeners[event];
+        if (listeners) {
+            await Promise.all(listeners.map(async (entry) => {
+                if (entry.once) {
+                    listeners.splice(listeners.indexOf(entry), 1);
+                }
+                await entry.listener(...args);
+            }));
+        }
+    }
+}
+exports.EventEmitter = EventEmitter;
