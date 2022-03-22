@@ -24,6 +24,15 @@ export class EventEmitter<T extends EventInterface> {
     return this.on(event, listener, true)
   }
 
+  public off <K extends keyof T> (event: K, listener: (...args: T[K]) => Promise<void> | void) {
+    const listeners = this.listeners[event] || (this.listeners[event] = [])
+    const listenerIndex = listeners.findIndex((entry) => entry.listener === listener)
+
+    if (listenerIndex > -1) {
+      listeners.splice(listenerIndex, 1)
+    }
+  }
+
   public async emit <K extends keyof T> (event: K, ...args: T[K]) {
     const listeners = this.listeners[event]
 

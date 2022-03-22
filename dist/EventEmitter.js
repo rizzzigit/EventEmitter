@@ -12,6 +12,13 @@ class EventEmitter {
     once(event, listener) {
         return this.on(event, listener, true);
     }
+    off(event, listener) {
+        const listeners = this.listeners[event] || (this.listeners[event] = []);
+        const listenerIndex = listeners.findIndex((entry) => entry.listener === listener);
+        if (listenerIndex > -1) {
+            listeners.splice(listenerIndex, 1);
+        }
+    }
     async emit(event, ...args) {
         const listeners = this.listeners[event];
         if (listeners) {

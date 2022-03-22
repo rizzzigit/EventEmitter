@@ -12,6 +12,7 @@ export declare class EventEmitter<T extends EventInterface> {
     readonly listeners: EventMap<T>;
     on<K extends keyof T>(event: K, listener: (...args: T[K]) => Promise<void> | void, once?: boolean): void;
     once<K extends keyof T>(event: K, listener: (...args: T[K]) => Promise<void> | void): void;
+    off<K extends keyof T>(event: K, listener: (...args: T[K]) => Promise<void> | void): void;
     emit<K extends keyof T>(event: K, ...args: T[K]): Promise<void>;
     bind(): {
         on: <K extends keyof T>(event: K, listener: (...args: T[K]) => void | Promise<void>, once?: boolean) => void;
