@@ -21,14 +21,16 @@ class EventEmitter {
     }
     async emit(event, ...args) {
         const listeners = this.listeners[event];
-        if (listeners) {
+        if (listeners?.length) {
             await Promise.all(listeners.map(async (entry) => {
                 if (entry.once) {
                     listeners.splice(listeners.indexOf(entry), 1);
                 }
                 await entry.listener(...args);
             }));
+            return true;
         }
+        return false;
     }
     bind() {
         return {
