@@ -35,7 +35,8 @@ class EventEmitter {
     bind() {
         return {
             on: this.on.bind(this),
-            once: this.once.bind(this)
+            once: this.once.bind(this),
+            off: this.off.bind(this)
         };
     }
 }

@@ -54,7 +54,8 @@ export class EventEmitter<T extends EventInterface> {
   public bind () {
     return {
       on: this.on.bind(this),
-      once: this.once.bind(this)
+      once: this.once.bind(this),
+      off: this.off.bind(this)
     }
   }
 }

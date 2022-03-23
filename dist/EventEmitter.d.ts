@@ -17,5 +17,6 @@ export declare class EventEmitter<T extends EventInterface> {
     bind(): {
         on: <K extends keyof T>(event: K, listener: (...args: T[K]) => void | Promise<void>, once?: boolean) => void;
         once: <K_1 extends keyof T>(event: K_1, listener: (...args: T[K_1]) => void | Promise<void>) => void;
+        off: <K_2 extends keyof T>(event: K_2, listener: (...args: T[K_2]) => void | Promise<void>) => void;
     };
 }
