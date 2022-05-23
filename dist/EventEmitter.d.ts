@@ -7,8 +7,12 @@ export declare type EventMap<T extends EventInterface> = {
         listener: (...args: T[K]) => Promise<void> | void;
     }>;
 };
+export interface EventEmitterOptions {
+    requireErrorHandling: boolean;
+}
 export declare class EventEmitter<T extends EventInterface> {
-    constructor();
+    constructor(options?: Partial<EventEmitterOptions>);
+    readonly options: EventEmitterOptions;
     readonly listeners: EventMap<T>;
     on<K extends keyof T>(event: K, listener: (...args: T[K]) => Promise<void> | void, once?: boolean): void;
     once<K extends keyof T>(event: K, listener: (...args: T[K]) => Promise<void> | void): void;

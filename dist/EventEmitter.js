@@ -2,9 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventEmitter = void 0;
 class EventEmitter {
-    constructor() {
+    constructor(options) {
+        this.options = {
+            requireErrorHandling: false,
+            ...options
+        };
         this.listeners = {};
     }
+    options;
     listeners;
     on(event, listener, once = false) {
         (this.listeners[event] || (this.listeners[event] = [])).push({ once, listener });
@@ -29,6 +34,9 @@ class EventEmitter {
                 await entry.listener(...args);
             }));
             return true;
+        }
+        if (event === 'error') {
+            throw args[0];
         }
         return false;
     }

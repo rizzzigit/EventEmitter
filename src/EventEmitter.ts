@@ -9,11 +9,20 @@ export type EventMap<T extends EventInterface> = {
   }>
 }
 
+export interface EventEmitterOptions {
+  requireErrorHandling: boolean
+}
+
 export class EventEmitter<T extends EventInterface> {
-  public constructor () {
+  public constructor (options?: Partial<EventEmitterOptions>) {
+    this.options = {
+      requireErrorHandling: false,
+      ...options
+    }
     this.listeners = <EventMap<T>> {}
   }
 
+  public readonly options: EventEmitterOptions
   public readonly listeners: EventMap<T>
 
   public on <K extends keyof T> (event: K, listener: (...args: T[K]) => Promise<void> | void, once: boolean = false) {
@@ -48,6 +57,7 @@ export class EventEmitter<T extends EventInterface> {
       return true
     }
 
+    if (event === 'error') { throw args[0] }
     return false
   }
 
