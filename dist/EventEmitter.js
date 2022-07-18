@@ -2,17 +2,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventEmitter = void 0;
 class EventEmitter {
-    constructor(options) {
+    constructor(options, returnObj = undefined) {
         this.options = {
             requireErrorHandling: false,
             ...options
         };
         this.listeners = {};
+        this.returnObj = returnObj;
     }
     options;
     listeners;
+    returnObj;
     on(event, listener, once = false) {
         (this.listeners[event] || (this.listeners[event] = [])).push({ once, listener });
+        return this.returnObj;
     }
     once(event, listener) {
         return this.on(event, listener, true);
@@ -23,6 +26,7 @@ class EventEmitter {
         if (listenerIndex > -1) {
             listeners.splice(listenerIndex, 1);
         }
+        return this.returnObj;
     }
     async emit(event, ...args) {
         const listeners = this.listeners[event];

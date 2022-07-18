@@ -13,20 +13,24 @@ export interface EventEmitterOptions {
   requireErrorHandling: boolean
 }
 
-export class EventEmitter<T extends EventInterface> {
-  public constructor (options?: Partial<EventEmitterOptions>) {
+export class EventEmitter<T extends EventInterface, ReturnObj extends any = undefined> {
+  public constructor (options?: Partial<EventEmitterOptions>, returnObj: ReturnObj = <any> undefined) {
     this.options = {
       requireErrorHandling: false,
       ...options
     }
     this.listeners = <EventMap<T>> {}
+    this.returnObj = returnObj
   }
 
   public readonly options: EventEmitterOptions
   public readonly listeners: EventMap<T>
+  public readonly returnObj: ReturnObj
 
   public on <K extends keyof T> (event: K, listener: (...args: T[K]) => Promise<void> | void, once: boolean = false) {
     (this.listeners[event] || (this.listeners[event] = [])).push({ once, listener })
+
+    return this.returnObj
   }
 
   public once <K extends keyof T> (event: K, listener: (...args: T[K]) => Promise<void> | void) {
@@ -40,6 +44,8 @@ export class EventEmitter<T extends EventInterface> {
     if (listenerIndex > -1) {
       listeners.splice(listenerIndex, 1)
     }
+
+    return this.returnObj
   }
 
   public async emit <K extends keyof T> (event: K, ...args: T[K]) {

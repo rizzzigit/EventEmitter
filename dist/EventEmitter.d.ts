@@ -10,17 +10,18 @@ export declare type EventMap<T extends EventInterface> = {
 export interface EventEmitterOptions {
     requireErrorHandling: boolean;
 }
-export declare class EventEmitter<T extends EventInterface> {
-    constructor(options?: Partial<EventEmitterOptions>);
+export declare class EventEmitter<T extends EventInterface, ReturnObj extends any = undefined> {
+    constructor(options?: Partial<EventEmitterOptions>, returnObj?: ReturnObj);
     readonly options: EventEmitterOptions;
     readonly listeners: EventMap<T>;
-    on<K extends keyof T>(event: K, listener: (...args: T[K]) => Promise<void> | void, once?: boolean): void;
-    once<K extends keyof T>(event: K, listener: (...args: T[K]) => Promise<void> | void): void;
-    off<K extends keyof T>(event: K, listener: (...args: T[K]) => Promise<void> | void): void;
+    readonly returnObj: ReturnObj;
+    on<K extends keyof T>(event: K, listener: (...args: T[K]) => Promise<void> | void, once?: boolean): ReturnObj;
+    once<K extends keyof T>(event: K, listener: (...args: T[K]) => Promise<void> | void): ReturnObj;
+    off<K extends keyof T>(event: K, listener: (...args: T[K]) => Promise<void> | void): ReturnObj;
     emit<K extends keyof T>(event: K, ...args: T[K]): Promise<boolean>;
     bind(): {
-        on: <K extends keyof T>(event: K, listener: (...args: T[K]) => void | Promise<void>, once?: boolean) => void;
-        once: <K_1 extends keyof T>(event: K_1, listener: (...args: T[K_1]) => void | Promise<void>) => void;
-        off: <K_2 extends keyof T>(event: K_2, listener: (...args: T[K_2]) => void | Promise<void>) => void;
+        on: <K extends keyof T>(event: K, listener: (...args: T[K]) => void | Promise<void>, once?: boolean) => ReturnObj;
+        once: <K_1 extends keyof T>(event: K_1, listener: (...args: T[K_1]) => void | Promise<void>) => ReturnObj;
+        off: <K_2 extends keyof T>(event: K_2, listener: (...args: T[K_2]) => void | Promise<void>) => ReturnObj;
     };
 }
