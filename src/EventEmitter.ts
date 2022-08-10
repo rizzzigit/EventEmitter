@@ -63,7 +63,7 @@ export class EventEmitter<T extends EventInterface, ReturnObj extends any = unde
       return true
     }
 
-    if (event === 'error') { throw args[0] }
+    if (this.options.requireErrorHandling && (event === 'error')) { throw args[0] }
     return false
   }
 

@@ -39,7 +39,7 @@ class EventEmitter {
             }));
             return true;
         }
-        if (event === 'error') {
+        if (this.options.requireErrorHandling && (event === 'error')) {
             throw args[0];
         }
         return false;
