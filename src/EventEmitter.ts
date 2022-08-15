@@ -52,14 +52,21 @@ export class EventEmitter<T extends EventInterface, ReturnObj extends any = unde
     const listeners = this.listeners[event]
 
     if (listeners?.length) {
-      await Promise.all(listeners.map(async (entry) => {
-        if (entry.once) {
-          listeners.splice(listeners.indexOf(entry), 1)
+      const promises: Array<Promise<void>> = []
+
+      for (let i = 0; listeners.length > i; i++) {
+        const { [i]: { once, listener } } = listeners
+        if (once) {
+          listeners.splice(i, 1)
         }
 
-        await entry.listener(...args)
-      }))
+        const output = listener(...args)
+        if (output instanceof Promise) {
+          promises.push(output)
+        }
+      }
 
+      await Promise.all(promises)
       return true
     }
 
