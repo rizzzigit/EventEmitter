@@ -58,6 +58,7 @@ export class EventEmitter<T extends EventInterface, ReturnObj extends any = unde
         const { [i]: { once, listener } } = listeners
         if (once) {
           listeners.splice(i, 1)
+          i--
         }
 
         const output = listener(...args)

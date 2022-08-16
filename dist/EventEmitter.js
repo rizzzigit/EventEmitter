@@ -36,6 +36,7 @@ class EventEmitter {
                 const { [i]: { once, listener } } = listeners;
                 if (once) {
                     listeners.splice(i, 1);
+                    i--;
                 }
                 const output = listener(...args);
                 if (output instanceof Promise) {
