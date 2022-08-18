@@ -1,7 +1,7 @@
 export interface EventInterface {
     [key: string]: Array<any>;
 }
-export declare type EventMap<T extends EventInterface> = {
+export type EventMap<T extends EventInterface> = {
     [K in keyof T]: Array<{
         once: boolean;
         listener: (...args: T[K]) => Promise<void> | void;
@@ -23,5 +23,6 @@ export declare class EventEmitter<T extends EventInterface, ReturnObj extends an
         on: <K extends keyof T>(event: K, listener: (...args: T[K]) => void | Promise<void>, once?: boolean) => ReturnObj;
         once: <K_1 extends keyof T>(event: K_1, listener: (...args: T[K_1]) => void | Promise<void>) => ReturnObj;
         off: <K_2 extends keyof T>(event: K_2, listener: (...args: T[K_2]) => void | Promise<void>) => ReturnObj;
+        emit: <K_3 extends keyof T>(event: K_3, ...args: T[K_3]) => Promise<boolean>;
     };
 }

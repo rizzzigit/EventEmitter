@@ -79,7 +79,8 @@ export class EventEmitter<T extends EventInterface, ReturnObj extends any = unde
     return {
       on: this.on.bind(this),
       once: this.once.bind(this),
-      off: this.off.bind(this)
+      off: this.off.bind(this),
+      emit: this.emit.bind(this)
     }
   }
 }
