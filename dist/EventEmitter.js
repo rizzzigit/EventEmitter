@@ -51,6 +51,9 @@ class EventEmitter {
         }
         return false;
     }
+    waitEvent(event) {
+        return new Promise((resolve) => this.once(event, (...args) => resolve(args)));
+    }
     bind() {
         return {
             on: this.on.bind(this),

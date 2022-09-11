@@ -75,6 +75,10 @@ export class EventEmitter<T extends EventInterface, ReturnObj extends any = unde
     return false
   }
 
+  public waitEvent <K extends keyof T> (event: K) {
+    return new Promise<T[K]>((resolve) => this.once(event, (...args) => resolve(args)))
+  }
+
   public bind () {
     return {
       on: this.on.bind(this),
