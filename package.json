@@ -1,6 +1,6 @@
 {
   "name": "@rizzzi/eventemitter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Minimal event emitter",
   "main": "dist/index.js",
   "scripts": {
